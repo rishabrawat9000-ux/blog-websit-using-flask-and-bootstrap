@@ -1,0 +1,16 @@
+{
+  "para": {
+    "local_server": "TRUE",
+    "local_uri": "mysql+pymysql://root:@localhost/blog",
+    "prod_uri": "mysql+pymysql://root:@localhost/blog",
+    "insta_url": "https://www.instagram.com/rishab_nuos/",
+    "link_url": "https://www.linkedin.com/in/rishabrawat9000?utm_source=share_via&utm_content=profile&utm_medium=member_android/",
+    "git_url": "https://github.com/rishabrawat9000-ux",
+    "email": "rishabrawat9000@gmail.com",
+    "gmail-password": "Ronin@47",
+    "no_of_posts": 5,
+    "user_name": "Rishab@123",
+    "password": "123456789"
+
+  }
+}
