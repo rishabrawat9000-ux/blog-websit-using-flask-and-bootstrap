@@ -47,7 +47,7 @@
       <td>{{post.date}}</td>
       <td>{{post.author}}</td>
       <td><a href="/edit/{{post.sno}}"><button class="btn btn-primary">Edit</button></a></td>
-      <td><button class="btn btn-primary">Delete</button></td>
+      <td><a href="/delete/{{post.sno}}"><button class="btn btn-primary">Delete</button></a></td>
     </tr>
    {% endfor %}
   </tbody>
@@ -60,7 +60,7 @@
     <input type="submit" value="Upload">
 </form>
 <hr>
-<div>
+<div class="clearly-fix mb-4">
 <a href="{{ url_for('logout') }}" class="btn btn-primary">
     Log out
 </a>

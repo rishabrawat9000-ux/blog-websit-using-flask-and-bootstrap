@@ -6,7 +6,7 @@
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <div class="site-heading">
                             <h1>THOUGHT TRAIL</h1>
-                            <span class="subheading">Thoughts worth sharing,Stories worth reading</span>
+                            <span class="subheading">Thoughts worth sharing  Stories worth reading</span>
                         </div>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                     <div class="post-preview">
                         <a href="/post/{{post.slug}}">
                             <h2 class="post-title">{{ post.title }}</h2>
-                            <h3 class="post-subtitle">{{ post.content[0:50] }}...</h3>
+                            <h3 class="post-subtitle">{{ post.content[0:400] }}...</h3>
                         </a>
                         <p class="post-meta">
                             Posted by
@@ -43,7 +43,15 @@
                     <hr class="my-4" />
                   
                     <!-- Pager-->
-                    <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
+                    <div class="clearly-fix">
+                        <div>
+         <!-- Pager -->
+<div class="clearfix mb-4">
+    <a class="btn btn-primary float-right" href="/?page={{ next }}">
+        Next →
+    </a>
+</div>
+                    </div>
                 </div>
             </div>
         </div>

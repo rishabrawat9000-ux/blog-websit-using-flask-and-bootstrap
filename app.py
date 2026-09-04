@@ -89,11 +89,50 @@ def edit(sno):
         return render_template("edit.html",paras=paras,post=post)
 
 
-
 @app.route("/")
 def home():
-    post=Post.query.filter_by().all()[0:paras['no_of_posts']]
-    return  render_template ("index.html",post=post,paras=paras)
+    per_page = int(paras['no_of_posts'])
+
+    page = request.args.get('page', 1)
+
+    if not str(page).isnumeric():
+        page = 1
+
+    page = int(page)
+
+    posts = Post.query.all()
+
+    last = (len(posts) + per_page - 1) // per_page
+
+    if last == 0:
+        last = 1
+
+    # Loop back to page 1 after the last page
+    if page > last:
+        page = 1
+
+    if page < 1:
+        page = 1
+
+    posts = posts[
+        (page - 1) * per_page:
+        page * per_page
+    ]
+
+    # Next page
+    if page == last:
+        next = 1
+    else:
+        next = page + 1
+
+    return render_template(
+        "index.html",
+        post=posts,
+        paras=paras,
+        next=next,
+        page=page,
+        last=last
+    )
 
 
 
@@ -140,7 +179,13 @@ def uploader():
             return "Uploaded successfully"
     else:
         return redirect("/auth")
-
+@app.route("/delete/<sno>",methods =["GET","POST"])
+def delete(sno):
+    if ('user' in session and session["user"] == paras["user_name"]):
+        post=Post.query.filter_by(sno=sno).first()
+        db.session.delete(post)
+        db.session.commit()
+    return redirect("/auth")
 @app.route("/logout")
 def logout():
     session.pop('user',None)
