@@ -10,7 +10,7 @@
     "gmail-password": "Ronin@47",
     "no_of_posts": 5,
     "user_name": "Rishab@123",
-    "password": "123456789"
-
+    "password": "123456789",
+    "loccaton": "/home/rishab/code/python/flask_tute/static/assets/img"
   }
 }

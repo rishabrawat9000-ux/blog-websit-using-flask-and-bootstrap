@@ -21,44 +21,40 @@
                     <!-- Post preview-->
 
 
-<h3>add/Edit Files</h3>
-<form id="contactForm" action="/edit{{sno}}" method="POST">
+<h3>Add/Edit Files</h3>
+<form id="contactForm" action="/edit{{post. sno}}" method="POST">
                                 <div class="form-floating">
-                                    <input class="form-control" id="title" type="text" name='title' placeholder="Enter title..." data-sb-validations="required" />
+                                    <input class="form-control" id="title" type="text" name='title' placeholder="Enter title..." data-sb-validations="required" value="{{post.title}}"/>
                                     <label for="name">Title</label>
                                     <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
                                 </div>
 
                                 <div class="form-floating">
-                                    <input class="form-control" id="slug" type="text" name='slug' placeholder="enter a dlug..." />
+                                    <input class="form-control" id="slug" type="text" name='slug' placeholder="enter a dlug..." value="{{post.slug}}" />
                                     <label for="email">slug</label>
                                 </div>
 
 
                                 <div class="form-floating">
-                                    <input class="form-control" id="img_file" type="text" name='img_file' placeholder="enter name of img..." />
+                                    <input class="form-control" id="img_file" type="text" name='img_file' placeholder="enter name of img..." value= "{{post.img_file}}" />
                                     <label for="email">image file</label>
                                 
 
                                 
                                 </div>
                                 <div class="form-floating">
-                                    <input class="form-control" id="author" name="author" type="text" placeholder="Enter your name..."/>
+                                    <input class="form-control" id="author" name="author" type="text" placeholder="Enter your name..." value="{{post.author}}"/>
                                     <label for="phone">authur</label>
                                 </div>
                                 <div class="form-floating">
-                                    <textarea class="form-control" id="content" name="content" placeholder="start typing..." style="height: 12rem"></textarea>
+                                    <textarea class="form-control" id="content" name="content" placeholder="start typing..." style="height: 12rem" >{{post.content}}</textarea>
                                     <label for="message">content</label>
-
-
-
                                 </div>
                             
                                 <div>
-                                <div>
 
-                                <button class="btn btn-primary text-uppercase" id="submitButton" type="submit"> Send </button>
+                                <button class="btn btn-primary text-uppercase" id="submitButton" type="submit"> SAVE </button>
                                 </div>
-                                </div>
+                            
                             </form>
         {%endblock%}

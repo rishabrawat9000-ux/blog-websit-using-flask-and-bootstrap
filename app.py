@@ -1,14 +1,15 @@
-from flask import Flask,render_template,request,session
+from flask import Flask,render_template,request,session,redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import json
-
-
+import os
+from werkzeug.utils import secure_filename
 with open('cofig.json', 'r') as c:
       paras=json.load(c)["para"]
 
 app= Flask(__name__)
 app.secret_key='super-secret-key'
+app.config['UPLOAD_FOLDER'] = paras['loccaton']
 app.config['SQLALCHEMY_DATABASE_URI'] = paras['local_uri'] if paras['local_server']=="TRUE"else paras["prod_uri"]
 db=SQLAlchemy(app)
 app.config.update(
@@ -69,12 +70,23 @@ def edit(sno):
             box_img = request.form.get("img_file")
 
 
+
             if(sno=='0'):
                 post1=Post(title=box_title,slug=box_slug,content=box_content,author=box_author,img_file=box_img,date=datetime.now())
                 db.session.add(post1)
                 db.session.commit()
-
-        return render_template("edit.html",paras=paras,sno=sno)
+            else:
+                post=Post.query.filter_by(sno=sno).first()
+                post.title = box_title
+                post.slug = box_slug
+                post.content = box_content
+                post.author= box_author
+                post.img_file = box_img
+                db.session.commit()
+                
+                return  redirect("/edit/"+sno)
+        post=Post.query.filter_by(sno=sno).first()    
+        return render_template("edit.html",paras=paras,post=post)
 
 
 
@@ -117,4 +129,22 @@ def contact():
 def post(post_slug):
     post = Post.query.filter_by(slug=post_slug).first()
     return render_template("post.html", post=post, paras=paras)
+
+
+@app.route("/uploader", methods=['GET', 'POST'])
+def uploader():
+    if ('user' in session and session["user"] == paras["user_name"]):
+        if request.method == 'POST':
+            f = request.files['file1']
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
+            return "Uploaded successfully"
+    else:
+        return redirect("/auth")
+
+@app.route("/logout")
+def logout():
+    session.pop('user',None)
+    return redirect("/auth")
+
+
 app.run(debug=True) 
