@@ -22,7 +22,7 @@ SITE_LINKS = {
 app = Flask(__name__)
 app.config.update(
     SECRET_KEY=os.environ.get("SECRET_KEY", "change-this-local-development-key"),
-    SQLALCHEMY_DATABASE_URI=os.environ.get("DATABASE_URL", f"sqlite:///{BASE_DIR / 'instance' / 'blog.db'}").replace("postgres://", "postgresql://", 1),
+    SQLALCHEMY_DATABASE_URI=os.environ.get("DATABASE_URL", f"sqlite:///{BASE_DIR / 'instance' / 'blog.db'}").replace("postgres://", "postgresql+psycopg://", 1).replace("postgresql://", "postgresql+psycopg://", 1),
     SQLALCHEMY_TRACK_MODIFICATIONS=False,
     UPLOAD_FOLDER=os.environ.get("UPLOAD_FOLDER", str(BASE_DIR / "static" / "assets" / "img")),
     MAX_CONTENT_LENGTH=5 * 1024 * 1024,
