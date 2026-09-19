@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: thought-trail
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --workers 2 --bind 0.0.0.0:$PORT app:app
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_PASSWORD_HASH
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: thought-trail-db
+          property: connectionString
+databases:
+  - name: thought-trail-db
+    plan: free

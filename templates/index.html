@@ -21,7 +21,7 @@
                     <!-- Post preview-->
 
 
-                    {% for post in post %}
+                    {% for post in posts %}
 
                 
                     <div class="post-preview">
@@ -46,11 +46,12 @@
                     <div class="clearly-fix">
                         <div>
          <!-- Pager -->
-<div class="clearfix mb-4">
+{% if next %}<div class="clearfix mb-4">
     <a class="btn btn-primary float-right" href="/?page={{ next }}">
         Next →
     </a>
 </div>
+{% endif %}
                     </div>
                 </div>
             </div>

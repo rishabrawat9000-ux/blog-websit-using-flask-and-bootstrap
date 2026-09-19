@@ -1,1 +1,5 @@
-venv13/
+.env
+venv/
+__pycache__/
+*.py[cod]
+instance/
