@@ -84,6 +84,13 @@ def valid_image(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_IMAGE_EXTENSIONS
 
 
+def save_image(uploaded):
+    """Save an allowed image with a collision-resistant filename."""
+    filename = f"{secrets.token_hex(8)}-{secure_filename(uploaded.filename)}"
+    uploaded.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+    return filename
+
+
 @app.route("/auth", methods=["GET", "POST"])
 def auth():
     if request.method == "POST":
@@ -111,9 +118,17 @@ def dashboard():
 def edit(sno):
     post = None if sno == 0 else db.get_or_404(Post, sno)
     if request.method == "POST":
-        fields = {name: request.form.get(name, "").strip() for name in ("title", "slug", "content", "author", "img_file")}
+        fields = {name: request.form.get(name, "").strip() for name in ("title", "slug", "content", "author")}
+        uploaded = request.files.get("image")
+        if uploaded and uploaded.filename:
+            if not valid_image(uploaded.filename):
+                flash("Choose a PNG, JPG, JPEG, GIF, or WEBP image under 5 MB.", "danger")
+                return render_template("edit.html", post=post, sno=sno), 400
+            fields["img_file"] = save_image(uploaded)
+        else:
+            fields["img_file"] = request.form.get("img_file", "").strip()
         if not all(fields.values()):
-            flash("All post fields are required.", "danger")
+            flash("All post fields and a background image are required.", "danger")
             return render_template("edit.html", post=post, sno=sno), 400
         duplicate = Post.query.filter(Post.slug == fields["slug"], Post.sno != sno).first()
         if duplicate:
@@ -169,8 +184,7 @@ def uploader():
     if not uploaded or not uploaded.filename or not valid_image(uploaded.filename):
         flash("Upload a PNG, JPG, JPEG, GIF, or WEBP image under 5 MB.", "danger")
         return redirect(url_for("dashboard"))
-    filename = f"{secrets.token_hex(8)}-{secure_filename(uploaded.filename)}"
-    uploaded.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+    filename = save_image(uploaded)
     flash(f"Uploaded {filename}. Use that filename when editing a post.", "success")
     return redirect(url_for("dashboard"))
 

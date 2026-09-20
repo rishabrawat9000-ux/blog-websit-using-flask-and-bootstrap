@@ -22,7 +22,7 @@
 
 
 <h3>Add/Edit Files</h3>
-<form id="contactForm" action="{{ url_for('edit', sno=sno) }}" method="POST">
+<form id="contactForm" action="{{ url_for('edit', sno=sno) }}" method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                 <div class="form-floating">
                                     <input class="form-control" id="title" type="text" name='title' placeholder="Enter title..." value="{{ post.title if post else '' }}" required/>
@@ -36,12 +36,11 @@
                                 </div>
 
 
-                                <div class="form-floating">
-                                    <input class="form-control" id="img_file" type="text" name='img_file' placeholder="enter name of image..." value="{{ post.img_file if post else '' }}" required />
-                                    <label for="email">image file</label>
-                                
-
-                                
+                                <div class="mb-3">
+                                    <label for="image" class="form-label">Post background image (JPEG accepted)</label>
+                                    <input class="form-control" id="image" type="file" name="image" accept="image/jpeg,image/png,image/gif,image/webp" {% if not post %}required{% endif %} />
+                                    {% if post %}<div class="form-text">Leave blank to keep the current background: {{ post.img_file }}</div>{% endif %}
+                                    <input type="hidden" name="img_file" value="{{ post.img_file if post else '' }}" />
                                 </div>
                                 <div class="form-floating">
                                     <input class="form-control" id="author" name="author" type="text" placeholder="Enter your name..." value="{{ post.author if post else '' }}" required/>
